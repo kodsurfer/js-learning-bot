@@ -8,7 +8,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 from config import BOT_TOKEN
 from database import engine, Base
-from handlers import start, registration
+from handlers import start, registration, lessons, practice, progress
 
 logging.basicConfig(level=logging.INFO)
 
@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.INFO)
 async def on_startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    logging.info("Database tables created")
 
 
 async def main():
@@ -27,8 +28,12 @@ async def main():
     bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher(storage=storage)
 
+    # Include routers
     dp.include_router(start.router)
     dp.include_router(registration.router)
+    dp.include_router(lessons.router)
+    dp.include_router(practice.router)
+    dp.include_router(progress.router)
 
     await on_startup()
     await dp.start_polling(bot)

@@ -22,3 +22,25 @@ skip_goal_keyboard = InlineKeyboardMarkup(
         [InlineKeyboardButton(text="⏭ Пропустить", callback_data="skip_goal")]
     ]
 )
+
+lessons_menu = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text="📖 Список уроков", callback_data="list_lessons")],
+        [InlineKeyboardButton(text="▶️ Продолжить обучение", callback_data="continue_learning")],
+        [InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")]
+    ]
+)
+
+practice_menu = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text="🎯 Начать практику", callback_data="start_practice")],
+        [InlineKeyboardButton(text="📊 Статистика", callback_data="practice_stats")],
+        [InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")]
+    ]
+)
+
+back_to_main_menu = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text="🏠 В главное меню", callback_data="back_to_main")]
+    ]
+)
