@@ -1,19 +1,22 @@
 # main.py
 import asyncio
 import logging
+
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.fsm.storage.memory import MemoryStorage
+
 from config import BOT_TOKEN
 from database import engine, Base
 from handlers import start, registration
 
 logging.basicConfig(level=logging.INFO)
 
+
 async def on_startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
 
 async def main():
     if not BOT_TOKEN:
@@ -21,7 +24,7 @@ async def main():
 
     storage = MemoryStorage()
 
-    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher(storage=storage)
 
     dp.include_router(start.router)
@@ -29,6 +32,7 @@ async def main():
 
     await on_startup()
     await dp.start_polling(bot)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
